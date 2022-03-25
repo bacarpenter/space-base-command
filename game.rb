@@ -21,8 +21,8 @@ def main
         Image.new("assets/astroid.png", x: 400, y: 0, height: 57, width: 57),
     ]
 
-    fire = Sound.new("assets/acid6.wav")
-
+    fire_sound = Sound.new("assets/acid6.wav")
+    is_loaded = true
     set title: "Space Base Command | Ben Carpenter"
 
     on :mouse_move do |event|
@@ -31,20 +31,35 @@ def main
     end
 
     on :mouse_down do |event|
-        fire.play
-        for star in stars
-            if star_hit?(event, star)
-                star.y = 0
-            end 
+        if is_loaded
+            fire_sound.play
+            for star in stars
+                if star_hit?(event, star)
+                    star.y = 0
+                end 
+            end
+            is_loaded = false
         end
+
     end
 
+    tick = 1
     update do
         for star in stars
             if star.y > 480
                 reset_star(star)
             end
             star.y = star.y + 0.5
+        end
+        unless is_loaded
+            if tick == 65
+                tick = 0
+                is_loaded = true
+            end
+            tick += 1
+            line.width = 1
+        else
+            line.width = 3
         end
     end
 
