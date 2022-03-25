@@ -23,6 +23,7 @@ def main
 
     fire_sound = Sound.new("assets/acid6.wav")
     is_loaded = true
+    lives = 3
     set title: "Space Base Command | Ben Carpenter"
 
     on :mouse_move do |event|
@@ -45,9 +46,13 @@ def main
 
     tick = 1
     update do
+        if lives == 0
+            close
+        end
         for star in stars
             if star.y > 480
                 reset_star(star)
+                lives -= 1
             end
             star.y = star.y + 0.5
         end
