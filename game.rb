@@ -13,21 +13,24 @@ $PLAY = 50 # Variable that changes how loose the aming is
 def main
     # Sprites
     line = Line.new(x1: 320, y1: 480, x2:320, y2: 480, color: 'red')
-    boom = Image.new("assets/boom.png")
+    planet = Image.new("assets/planet.png", y: 440)
+    bg = Image.new("assets/starfield_alpha.png", z: -1)
     stars = [
-        Image.new("assets/star.png", x: 0, y: 0, height: 57, width: 57),
-        Image.new("assets/star.png", x: 100, y: 0, height: 57, width: 57),
-        Image.new("assets/star.png", x: 400, y: 0, height: 57, width: 57),
+        Image.new("assets/astroid.png", x: 0, y: 0, height: 57, width: 57),
+        Image.new("assets/astroid.png", x: 100, y: 0, height: 57, width: 57),
+        Image.new("assets/astroid.png", x: 400, y: 0, height: 57, width: 57),
     ]
 
+    set title: "Space Base Command | Ben Carpenter"
+
     on :mouse_move do |event|
-        line.x2 = calc_screen_intercept(event)
+        line.x2 = screen_intercept(event)
         line.y2 = 0
     end
 
     on :mouse_down do |event|
         for star in stars
-            if calc_star_on_line(event, star)
+            if star_hit?(event, star)
                 star.y = 0
             end 
         end
@@ -56,14 +59,14 @@ end
 
 # My intense thank you to our TA, Waka, who was an immense help on this part of the project!
 
-def calc_screen_intercept(event)
+def screen_intercept(event)
     x2 = event.x
     y2 = event.y
 
     x = -480*((x2-320.0)/(y2-480.0)) + 320
 end
 
-def calc_star_on_line(event, star)
+def star_hit?(event, star)
     x2 = event.x
     y2 = event.y
 
