@@ -21,6 +21,8 @@ def main
         Image.new("assets/astroid.png", x: 400, y: 0, height: 57, width: 57),
     ]
 
+    fire = Sound.new("assets/acid6.wav")
+
     set title: "Space Base Command | Ben Carpenter"
 
     on :mouse_move do |event|
@@ -29,6 +31,7 @@ def main
     end
 
     on :mouse_down do |event|
+        fire.play
         for star in stars
             if star_hit?(event, star)
                 star.y = 0
