@@ -8,15 +8,12 @@
 
 require 'ruby2d'
 
-$PLAY = 50
-
-# Sound from http://gamekill.cz/cstrike/sound/thompson-1.wav
+$PLAY = 50 # Variable that changes how loose the aming is
 
 def main
     # Sprites
     line = Line.new(x1: 320, y1: 480, x2:320, y2: 480, color: 'red')
     boom = Image.new("assets/boom.png")
-    gun_sound = Sound.new("assets/gun_sound.wav")
     stars = [
         Image.new("assets/star.png", x: 0, y: 0, height: 57, width: 57),
         Image.new("assets/star.png", x: 100, y: 0, height: 57, width: 57),
@@ -29,8 +26,6 @@ def main
     end
 
     on :mouse_down do |event|
-    # boom.x = event.x - (72/2)
-    # boom.y = event.y - (72/2)
         for star in stars
             if calc_star_on_line(event, star)
                 star.y = 0
@@ -59,7 +54,7 @@ def object_clicked?(event, object)
     event.x.between?(star.x, star.x + star.width) and event.y.between?(star.y, star.y + star.height)
 end
 
-# Waka
+# My intense thank you to our TA, Waka, who was an immense help on this part of the project!
 
 def calc_screen_intercept(event)
     x2 = event.x
