@@ -8,42 +8,46 @@
 
 require 'ruby2d'
 
-# Diffaculty Varibles (change to make game harder or easier at the start)
-@difficulty = 1 # Number used to calculate fall speed and @astroids
-@astroids = 2 # Starting number of @astroids
-$PLAY = 50 # Variable that changes how loose the aming is
+$PLAY = 60 # Variable that changes how loose the aming is
+$MAX_STARS = 8
 
 def main
     # Sprites
     line = Line.new(x1: 320, y1: 480, x2:320, y2: 480, color: 'red')
     planet = Image.new("assets/planet.png", y: 440)
     bg = Image.new("assets/starfield_alpha.png", z: -1)
-    stars = [
-        Image.new("assets/astroid.png", x: 0, y: 0, height: 57, width: 57),
-    ]
+    stars = [Image.new("assets/astroid.png", x: 0, y: 0, height: 57, width: 57)]
     
+    # Sounds
     fire_sound = Sound.new("assets/acid6.wav")
     
-    # Misc Varibles
+    # Varibles
     difficulty = 1
     fall_speed = 0.5 # Starting fall speed
     is_loaded = true
     lives = 3
+    score = 0
+    game_over = false
+    score_text = Text.new("Score: #{score}")
     set title: "Space Base Command | Ben Carpenter"
 
     on :mouse_move do |event|
-        line.x2 = screen_intercept(event)
-        line.y2 = 0
+        unless game_over
+            line.x2 = screen_intercept(event)
+            line.y2 = 0
+        end
     end
 
     on :mouse_down do |event|
-        if is_loaded
+        if is_loaded and !game_over
             fire_sound.play
             for star in stars
                 if star_hit?(event, star)
                     score += 1
-                    star.y = -60 # Start off screen
-                    star.x = rand(0..640)
+                    reset_star(star)
+
+                    score_text.text = "Score: #{score}"
+
                     difficulty += ((difficulty * 0.1) / 2)
                 end 
             end
@@ -56,14 +60,18 @@ def main
     update do
 
         # Update difficulty
-        if difficulty.to_i > stars.length
-            stars << Image.new("assets/astroid.png", x: rand(0..640), y: 0, height: 57, width: 57)
+        if difficulty.to_i > stars.length && stars.length <= $MAX_STARS
+            star = Image.new("assets/astroid.png", height: 57, width: 57)
+            stars << star
+            reset_star(star)
         end
 
         
-        if lives == 0
+        if lives <= 0
             # Game over
-            close
+            game_over = true
+            Text.new("Game Over. Final Score: #{score}", x: 320, y: 240, color: "red")
+            for star in stars do star.remove end
         end
         for star in stars
             if star.y > 480
@@ -90,7 +98,12 @@ end
 
 def reset_star(star)
     star.y = -72
-    star.x = rand(0..620)
+
+    if rand(0..1) == 0
+        star.x = rand(0..245)
+    else
+        star.x = rand(395..640)
+    end
 end
 
 def object_clicked?(event, object)
@@ -117,11 +130,6 @@ def star_hit?(event, star)
     lower = (((y2 - 480.0) / (x2 - 320.0))*(xstar - 320) + 480) - $PLAY
 
     return star.y.between?(lower, upper)
-end
-
-def update_diffaculty()
-    @difficulty = @difficulty + ((@difficulty * 0.1) / 2)
-    puts @difficulty
 end
 
 main
