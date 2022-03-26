@@ -8,6 +8,9 @@
 
 require 'ruby2d'
 
+# Diffaculty Varibles (change to make game harder or easier at the start)
+@difficulty = 1 # Number used to calculate fall speed and @astroids
+@astroids = 2 # Starting number of @astroids
 $PLAY = 50 # Variable that changes how loose the aming is
 
 def main
@@ -17,11 +20,13 @@ def main
     bg = Image.new("assets/starfield_alpha.png", z: -1)
     stars = [
         Image.new("assets/astroid.png", x: 0, y: 0, height: 57, width: 57),
-        Image.new("assets/astroid.png", x: 100, y: 0, height: 57, width: 57),
-        Image.new("assets/astroid.png", x: 400, y: 0, height: 57, width: 57),
     ]
-
+    
     fire_sound = Sound.new("assets/acid6.wav")
+    
+    # Misc Varibles
+    difficulty = 1
+    fall_speed = 0.5 # Starting fall speed
     is_loaded = true
     lives = 3
     set title: "Space Base Command | Ben Carpenter"
@@ -36,7 +41,10 @@ def main
             fire_sound.play
             for star in stars
                 if star_hit?(event, star)
-                    star.y = 0
+                    score += 1
+                    star.y = -60 # Start off screen
+                    star.x = rand(0..640)
+                    difficulty += ((difficulty * 0.1) / 2)
                 end 
             end
             is_loaded = false
@@ -46,7 +54,15 @@ def main
 
     tick = 1
     update do
+
+        # Update difficulty
+        if difficulty.to_i > stars.length
+            stars << Image.new("assets/astroid.png", x: rand(0..640), y: 0, height: 57, width: 57)
+        end
+
+        
         if lives == 0
+            # Game over
             close
         end
         for star in stars
@@ -61,6 +77,7 @@ def main
                 tick = 0
                 is_loaded = true
             end
+            fall_speed = difficulty / 2
             tick += 1
             line.width = 1
         else
@@ -100,6 +117,11 @@ def star_hit?(event, star)
     lower = (((y2 - 480.0) / (x2 - 320.0))*(xstar - 320) + 480) - $PLAY
 
     return star.y.between?(lower, upper)
+end
+
+def update_diffaculty()
+    @difficulty = @difficulty + ((@difficulty * 0.1) / 2)
+    puts @difficulty
 end
 
 main
