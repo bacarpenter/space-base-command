@@ -3,7 +3,7 @@
 
 In Space Base Command, you are the commander of a high-powered laser gun, defending the people of your planet from falling asteroids. As you keep playing the game gets more difficult and lining up your shots becomes more important!
 
-[](README-screenshot.png)
+![](README-screenshot.png)
 
 ## Play
 
