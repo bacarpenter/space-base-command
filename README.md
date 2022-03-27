@@ -20,7 +20,7 @@ This game was made with [Ruby 2D](https://www.ruby2d.com) and Ruby.
 
 Thank you to all of the tallented artists on [OpenGameArt.org](https://opengameart.org). Here are the attributions of the art I used in this projet.
 * `astroid.png` was created by immersivegamer, and is in the public domain. ([link](https://opengameart.org/content/space-shooter-assets))
-* `planet.png` was created by Screaming Brain Studios, and is in the public domain. ([link](https://opengameart.org/content/planet-surface-backgrounds))
+* `planet.png` (Original file name: `640x480 Rocky - Dry.png`) was created by Screaming Brain Studios, and is in the public domain. ([link](https://opengameart.org/content/planet-surface-backgrounds))
 * `acid6.wav` was created by Michel Baradari, and is liscensed under the CC-BY 3.0 license. ([link](https://opengameart.org/content/9-sci-fi-computer-sounds-and-beeps))
 * `starfield_alpha.png` was created by darklighter_designs, and is liscensed under the CC-BY 3.0 license. ([link](https://opengameart.org/content/starfield-alpha-4k))
 
