@@ -13,7 +13,7 @@ $MAX_STARS = 8
 
 def main
     # Sprites
-    line = Line.new(x1: 320, y1: 480, x2:320, y2: 480, color: 'red')
+    line = Line.new(x1: 320, y1: 480, x2:320, y2: 0, color: 'red')
     planet = Image.new("assets/planet.png", y: 440)
     bg = Image.new("assets/starfield_alpha.png", z: -1)
     stars = [Image.new("assets/astroid.png", x: 0, y: 0, height: 57, width: 57)]
@@ -31,9 +31,9 @@ def main
     score_text = Text.new("Score: #{score}")
     set title: "Space Base Command | Ben Carpenter"
 
-    on :mouse_move do |event|
+    on :mouse_move do |event| # Runs every time the mouse is moved
         unless game_over
-            line.x2 = screen_intercept(event)
+            line.x2 = screen_intercept(event) # Calculate where the line should end!
             line.y2 = 0
         end
     end
@@ -59,20 +59,21 @@ def main
     tick = 1
     update do
 
-        # Update difficulty
+        # Add stars according to difficulty
         if difficulty.to_i > stars.length && stars.length <= $MAX_STARS
             star = Image.new("assets/astroid.png", height: 57, width: 57)
             stars << star
             reset_star(star)
         end
 
-        
+        # Game over
         if lives <= 0
-            # Game over
             game_over = true
             Text.new("Game Over. Final Score: #{score}", x: 320, y: 240, color: "red")
             for star in stars do star.remove end
         end
+        
+        # Reset the stars when they get to the bottom of screen
         for star in stars
             if star.y > 480
                 reset_star(star)
@@ -80,6 +81,8 @@ def main
             end
             star.y = star.y + 0.5
         end
+        
+        # Reload timer
         unless is_loaded
             if tick == 65
                 tick = 0
@@ -87,15 +90,16 @@ def main
             end
             fall_speed = difficulty / 2
             tick += 1
-            line.width = 1
+            line.width = 1 # Line is thinner when gun is not loaded
         else
-            line.width = 3
+            line.width = 3 # Line is thicker when gun is loaded!
         end
     end
 
     show
 end
 
+# Set a star to a random x pos at the top of the screen
 def reset_star(star)
     star.y = -72
 
@@ -106,19 +110,17 @@ def reset_star(star)
     end
 end
 
-def object_clicked?(event, object)
-    event.x.between?(star.x, star.x + star.width) and event.y.between?(star.y, star.y + star.height)
-end
-
 # My intense thank you to our TA, Waka, who was an immense help on this part of the project!
 
+# Calculate where the line should end to intercept with the top of the screen!
 def screen_intercept(event)
     x2 = event.x
     y2 = event.y
 
-    x = -480*((x2-320.0)/(y2-480.0)) + 320
+    x = -480*((x2-320.0)/(y2-480.0)) + 320 # Yay! Equations of lines!!
 end
 
+# Calculate weather or not a star is hit, with some wiggle room
 def star_hit?(event, star)
     x2 = event.x
     y2 = event.y
@@ -132,4 +134,4 @@ def star_hit?(event, star)
     return star.y.between?(lower, upper)
 end
 
-main
+main # Run the main function. 
