@@ -1,0 +1,5 @@
+Boom.png, Star.png are part of Twitter's Twemoji project, licensed under the CC-BY 4.0 license. https://twemoji.twitter.com
+
+Astroid: https://opengameart.org/content/space-shooter-assets
+Planet: https://opengameart.org/content/planet-surface-backgrounds
+Acid6: https://opengameart.org/content/9-sci-fi-computer-sounds-and-beeps
