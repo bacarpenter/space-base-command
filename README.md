@@ -12,6 +12,8 @@ To play the game, first make sure you have Ruby 2D installed with `gem install r
 ruby game.rb
 ```
 
+Or, you can intall a native verison on macOS, via the release tab!
+
 ## Tech
 
 This game was made with [Ruby 2D](https://www.ruby2d.com) and Ruby.
