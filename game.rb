@@ -14,12 +14,12 @@ $MAX_STARS = 8
 def main
     # Sprites
     line = Line.new(x1: 320, y1: 480, x2:320, y2: 0, color: 'red')
-    planet = Image.new("assets/planet.png", y: 440)
-    bg = Image.new("assets/starfield_alpha.png", z: -1)
-    stars = [Image.new("assets/astroid.png", x: 0, y: 0, height: 57, width: 57)]
+    planet = Image.new("#{Ruby2D.ext_base_path}/../Resources/planet.png", y: 440)
+    bg = Image.new("#{Ruby2D.ext_base_path}/../Resources/starfield_alpha.png", z: -1)
+    stars = [Image.new("#{Ruby2D.ext_base_path}/../Resources/astroid.png", x: 0, y: 0, height: 57, width: 57)]
     
     # Sounds
-    fire_sound = Sound.new("assets/acid6.wav")
+    fire_sound = Sound.new("#{Ruby2D.ext_base_path}/../Resources/acid6.wav")
     
     # Varibles
     difficulty = 1
@@ -61,7 +61,7 @@ def main
 
         # Add stars according to difficulty
         if difficulty.to_i > stars.length && stars.length <= $MAX_STARS
-            star = Image.new("assets/astroid.png", height: 57, width: 57)
+            star = Image.new("#{Ruby2D.ext_base_path}/../Resources/astroid.png", height: 57, width: 57)
             stars << star
             reset_star(star)
         end
@@ -103,10 +103,10 @@ end
 def reset_star(star)
     star.y = -72
 
-    if rand(0..1) == 0
-        star.x = rand(0..245)
+    if rand(2) == 0
+        star.x = rand(246)
     else
-        star.x = rand(395..640)
+        star.x = rand(246) + 395
     end
 end
 
